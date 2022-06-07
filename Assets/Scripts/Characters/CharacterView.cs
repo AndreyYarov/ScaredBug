@@ -17,13 +17,14 @@ namespace ScaredBug.Character
                 m_Animator = GetComponent<Animator>();
         }
 
-        public void SetDestination(Vector3 destination)
+        public void SetDestination(Vector3 destination, Action OnEnd)
         {
             StopAllCoroutines();
-            StartCoroutine(MoveAsync(destination));
+            StartCoroutine(MoveAsync(destination, OnEnd));
+            this.destination = destination;
         }
 
-        private IEnumerator MoveAsync(Vector3 destination)
+        private IEnumerator MoveAsync(Vector3 destination, Action OnEnd)
         {
             Vector3 dir = destination - transform.position;
             float distance = dir.magnitude;
@@ -41,18 +42,13 @@ namespace ScaredBug.Character
                 yield return null;
             }
             m_Animator.SetBool("Walk", false);
+            OnEnd?.Invoke();
         }
 
-        public void RotateTo(Vector3 direction)
-        {
-            StopAllCoroutines();
-            StartCoroutine(RotateAsync(direction, null));
-        }
-
-        private IEnumerator FlipReturn(float sign)
+        private IEnumerator FlipReturn()
         {
             float flip = m_Animator.GetFloat("Flip");
-            while (flip != -sign && flip != 0f)
+            while (Mathf.Abs(flip) != 1f && flip != 0f)
             {
                 yield return null;
                 flip = m_Animator.GetFloat("Flip");
@@ -79,7 +75,7 @@ namespace ScaredBug.Character
             Quaternion target = Quaternion.LookRotation(Vector3.forward, -direction);
             if (angle * sign < m_MinAnimateFlipAngle)
             {
-                yield return FlipReturn(sign);
+                yield return FlipReturn();
                 OnCanMove?.Invoke();
                 while (transform.rotation != target)
                 {
@@ -90,7 +86,7 @@ namespace ScaredBug.Character
             else
             {
                 if (m_Animator.GetFloat("Flip") * sign < 0f)
-                    yield return FlipReturn(sign);
+                    yield return FlipReturn();
                 if (m_Animator.GetFloat("Flip") == 0f)
                     m_Animator.SetTrigger(sign < 0 ? "Rotate-Right" : "Rotate-Left");
                 while (m_Animator.GetFloat("Flip") != sign)
@@ -116,7 +112,7 @@ namespace ScaredBug.Character
         }
 
         #region testing
-        //private Vector3 destination;
+        private Vector3 destination;
 
         //private void Start()
         //{
@@ -133,14 +129,14 @@ namespace ScaredBug.Character
         //    }
         //}
 
-        //private void OnDrawGizmos()
-        //{
-        //    if (Application.isPlaying)
-        //    {
-        //        Gizmos.color = Color.red;
-        //        Gizmos.DrawLine(transform.position, destination);
-        //    }
-        //}
+        private void OnDrawGizmos()
+        {
+            if (Application.isPlaying)
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawLine(transform.position, destination);
+            }
+        }
         #endregion
     }
 }
