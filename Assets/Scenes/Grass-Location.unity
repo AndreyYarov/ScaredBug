@@ -123,6 +123,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &67704693 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4105573984755911953, guid: 5295692a4eb62f142a491225aa0fa609, type: 3}
+  m_PrefabInstance: {fileID: 4216561972733588835}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e73a7b6a29d2ec4e8ea663627ebbc68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &114375169
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,6 +230,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e7718c29b090404f8360978fd7835f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_UIManager: {fileID: 67704693}
+  m_LevelManager: {fileID: 766893934}
 --- !u!4 &215618589
 Transform:
   m_ObjectHideFlags: 0
@@ -227,7 +240,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 215618587}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.3900704, y: -0.63806653, z: 0.022574168}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
