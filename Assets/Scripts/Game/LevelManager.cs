@@ -21,11 +21,15 @@ namespace ScaredBug.Game
 
         public IEnumerator Play()
         {
-            new CursorPresenter(m_CursorModel, m_CursorView);
+            CursorPresenter cursor = new CursorPresenter(m_CursorModel, m_CursorView);
             m_CharacterView.transform.position = m_StartFlagTransform.position;
             CharacterController controller = new CharacterController(m_CharacterView, this, m_CursorModel);
+
             yield return controller.Play();
+
+            cursor.Dispose();
         }
+
         private void Awake()
         {
             Vector2 extents = Camera.main.ViewportToWorldPoint(Vector2.one);
@@ -36,10 +40,10 @@ namespace ScaredBug.Game
 
         #region testing
 
-        private void Start()
-        {
-            StartCoroutine(Play());
-        }
+        //private void Start()
+        //{
+        //    StartCoroutine(Play());
+        //}
 
 #if UNITY_EDITOR
         private void OnValidate()

@@ -1,8 +1,9 @@
+using System;
 using UnityEngine;
 
 namespace ScaredBug.Cursor
 {
-    public class CursorPresenter
+    public class CursorPresenter : IDisposable
     {
         private ICursorModel _model;
         private ICursorView _view;
@@ -38,6 +39,15 @@ namespace ScaredBug.Cursor
         {
             if (_view != null)
                 _view.SetRadius(radius);
+        }
+
+        public void Dispose()
+        {
+            _model.OnPositionChanged.RemoveListener(OnPositionChanged);
+            _model.OnRadiusChanged.RemoveListener(OnRadiusChanged);
+            _model = null;
+            _view.OnMouseMove.RemoveListener(OnMouseMove);
+            _view = null;
         }
     }
 }
